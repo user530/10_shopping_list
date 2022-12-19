@@ -5,7 +5,7 @@ import Alert from "./Alert";
 
 const App = () => {
   const [item, setItem] = React.useState("");
-  const [list, setList] = React.useState([]);
+  const [list, setList] = React.useState(listFromStorage());
   const [isEdited, setIsEdited] = React.useState(false);
   const [editId, setEditId] = React.useState(null);
   const [alert, setAlert] = React.useState({
@@ -73,6 +73,16 @@ const App = () => {
     );
     showAlert(true, "success", "Item status changed");
   };
+
+  function listFromStorage() {
+    let shoppingList = localStorage.getItem("shopping_list");
+    if (shoppingList) return JSON.parse(shoppingList);
+    else return [];
+  }
+
+  React.useEffect(() => {
+    localStorage.setItem(`shopping_list`, JSON.stringify(list));
+  }, [list]);
 
   return (
     <section className="section-center">
